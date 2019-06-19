@@ -258,8 +258,11 @@ tar xf $BASEDIR/inputs/copy.tar
 
 ls -lrht
 
-xrdcp file:///$PWD/${outfilename}_nanooad.root root://cmseos.fnal.gov//store/user/shoh/nanoaod/${PROCESS}/${outfilename}_nanoaod.root
-#lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_miniaod.root srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/privateSignal/${outfilename}_miniaod.root
+#echo "FERMILAB"
+#xrdcp file:///$PWD/${outfilename}_nanooad.root root://cmseos.fnal.gov//store/user/shoh/nanoaod/${PROCESS}/${outfilename}_nanoaod.root
+
+echo "Legnaro: please check availability root file at : dcap://t2-srm-02.lnl.infn.it/pnfs/lnl.infn.it/data/cms/store/user/shoh/privateSignal/"
+lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_miniaod.root srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/privateSignal/Nanoaod/${outfilename}_nanoaod.root
 
 #xrdcp file:///$PWD/${outfilename}_miniaod.root root://cmseos.fnal.gov/${REMOTE_USER_DIR}/${outfilename}_miniaod.root
 #xrdcp file:///$PWD/${outfilename}_miniaod.root root://cmseos.fnal.gov/${EOSOUTPUT}/${PROCESS}/${outfilename}_miniaod.root
