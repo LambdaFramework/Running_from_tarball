@@ -39,7 +39,8 @@ cp inputs/pu_files.py ./submit/inputs/
 
 #x509
 voms-proxy-init -voms cms -valid 172:00
-cp ~/x509up_u$UID $SUBMIT_WORKDIR/x509up
+mv /tmp/x509up_u$UID $HOME/
+cp $HOME/x509up_u$UID $SUBMIT_WORKDIR/x509up
 
 #creating tarball
 echo "Tarring up submit..."
