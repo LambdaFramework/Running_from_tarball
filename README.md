@@ -1,4 +1,8 @@
-# Running from Tarball in cmslpc
+# Running from Tarball in Padova Condor
+
+WARNING: COULD NOT READ DB: 
+
+https://github.com/LambdaFramework/running_from_tarball/blob/pd-nanoaod/submit/runEventGeneration.sh#L145
 
 This is a small tool to privately generate RunIISummer16MiniAODv2 events from a standard CMS gridpack.
 
