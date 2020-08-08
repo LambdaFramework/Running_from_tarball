@@ -10,8 +10,15 @@ ls -lhrt
 ############
 # inputs
 
-export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
-source $VO_CMS_SW_DIR/cmsset_default.sh
+source /cvmfs/grid.cern.ch/emi3ui-latest/etc/profile.d/setup-ui-example.sh
+source /cvmfs/cms.cern.ch/cmsset_default.sh
+
+echo "Check Proxy --> HERE:"
+export X509_USER_PROXY=/homeui/hoh/x509up_u761
+echo ${X509_USER_PROXY}
+voms-proxy-info
+which voms-proxy-info
+
 source inputs.sh
 
 export nevent="1000"
