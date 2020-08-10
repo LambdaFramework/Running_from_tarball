@@ -42,9 +42,7 @@ export WORKDIR=`pwd`
 #############
 # generate LHEs
 
-#export SCRAM_ARCH=slc6_amd64_gcc481
-#CMSSWRELEASE=CMSSW_7_1_20_patch3
-export SCRAM_ARCH=slc6_amd64_gcc472
+export SCRAM_ARCH=slc6_amd64_gcc481
 CMSSWRELEASE=CMSSW_7_1_30
 scram p CMSSW $CMSSWRELEASE
 cd $CMSSWRELEASE/src
@@ -146,7 +144,7 @@ cmsDriver.py step1 \
     --datatier GEN-SIM-RAW \
     --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 \
     --era Run2_2016 \
-    --nThreads 1 \
+    --nThreads 4 \
     --python_filename ${outfilename}_1_cfg.py \
     --datamix PreMix \
     --pileup_input "dbs:/Neutrino_E-10_gun/RunIISpring15PrePremix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v2-v2/GEN-SIM-DIGI-RAW" \
@@ -164,7 +162,7 @@ cmsDriver.py step2 \
     --datatier AODSIM \
     --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 \
     --era Run2_2016 \
-    --nThreads 1 \
+    --nThreads 4 \
     --python_filename ${outfilename}_2_cfg.py \
     --customise Configuration/DataProcessing/Utils.addMonitoring \
     --runUnscheduled \
@@ -188,9 +186,6 @@ cd CMSSW_9_4_9/src
 eval `scram runtime -sh`
 scram b -j 1
 
-#scram p CMSSW_9_4_0
-#cd CMSSW_9_4_0/src
-#eval `scram runtime -sh`
 cd -
 
 echo "3.) Generating MINIAOD"
@@ -202,7 +197,7 @@ cmsDriver.py step1 \
     --datatier MINIAODSIM \
     --conditions 94X_mcRun2_asymptotic_v3 \
     --era Run2_2016,run2_miniAOD_80XLegacy \
-    --nThreads 1 \
+    --nThreads 4 \
     --python_filename ${outfilename}_miniaod_cfg.py \
     --customise Configuration/DataProcessing/Utils.addMonitoring \
     --runUnscheduled \
@@ -236,14 +231,14 @@ cd -
 
 #https://github.com/CoffeaTeam/CoffeaHarvester/blob/master/crab/mc_NANO_2016.py
 cmsDriver.py step1 \
-    --filein file:${outfilename}_miniaod.root --fileout file:${outfilename}_nanooad.root \
+    --filein file:${outfilename}_miniaod.root --fileout file:${outfilename}_nanoaod.root \
     --mc \
     --step NANO \
     --eventcontent NANOAODSIM \
     --datatier NANOAODSIM \
     --conditions 102X_mcRun2_asymptotic_v6 \
     --era Run2_2016,run2_nanoAOD_94X2016 \
-    --nThreads 1 \
+    --nThreads 4 \
     --python_filename ${outfilename}_nanoaod_cfg.py \
     --customise_commands="process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)))" \
     --customise_commands 'process.particleLevelSequence.remove(process.genParticles2HepMCHiggsVtx);process.particleLevelSequence.remove(process.rivetProducerHTXS);process.particleLevelTables.remove(process.HTXSCategoryTable)' \
@@ -264,27 +259,21 @@ tar xf $BASEDIR/inputs/copy.tar
 #REMOTE_USER_DIR=""
 
 ls -lrht
+echo "Current directory : $PWD"
+echo "WORKDIR : $WORKDIR"
+process_folder=`echo ${outfilename} | awk -F "_" '{print $1}'`
 
-#echo "FERMILAB"
-#xrdcp file:///$PWD/${outfilename}_nanooad.root root://cmseos.fnal.gov//store/user/shoh/nanoaod/${PROCESS}/${outfilename}_nanoaod.root
+# copy nanoaod
+lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_nanoaod.root srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/Nanoaod/${process_folder}/${outfilename}_nanoaod.root
 
-echo "Legnaro: please check availability root file at : dcap://t2-srm-02.lnl.infn.it/pnfs/lnl.infn.it/data/cms/store/user/shoh/privateSignal/"
-lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_miniaod.root srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/privateSignal/Nanoaod/${outfilename}_nanoaod.root
+# copy gensim
+lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_gensim.root srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/GenSim/${process_folder}/${outfilename}_gensim.root
 
-#xrdcp file:///$PWD/${outfilename}_miniaod.root root://cmseos.fnal.gov/${REMOTE_USER_DIR}/${outfilename}_miniaod.root
-#xrdcp file:///$PWD/${outfilename}_miniaod.root root://cmseos.fnal.gov/${EOSOUTPUT}/${PROCESS}/${outfilename}_miniaod.root
-#xrdcp file:///$PWD/${outfilename}_miniaod.root root://cmseos.fnal.gov//store/user/lpcmetx/miniaod/DarkHiggsModel/BBbarDM_90/${PROCESS}/${outfilename}_miniaod.root
-#xrdcp file:///$PWD/${outfilename}_miniaod.root root://cmseos.fnal.gov//store/user/shoh/miniaod/BBbarDM_70/${PROCESS}/${outfilename}_miniaod.root
-#xrdcp file:///$PWD/${outfilename}_miniaod.root root://cmseos.fnal.gov//store/user/lpcmetx/miniaod/DarkHiggsModel/DiJetsDM/${PROCESS}/${outfilename}_miniaod.root
-#if which gfal-copy
-#then
-#    gfal-copy ${outfilename}_miniaod.root gsiftp://se01.cmsaf.mit.edu:2811/cms/store${REMOTE_USER_DIR}/${outfilename}_miniaod.root
-#elif which lcg-cp
-#then
-#    lcg-cp -v -D srmv2 -b file://$PWD/${outfilename}_miniaod.root gsiftp://se01.cmsaf.mit.edu:2811/cms/store${REMOTE_USER_DIR}/${outfilename}_miniaod.root
-#else
-    #echo "No way to copy something."                                                                                                                                         
-#    exit 1
-#fi
+# copy miniaod
+#lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_miniaod.root srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/Nanoaod/${process_folder}/${outfilename}_miniaod.root
+
+lcg-ls -v -D srmv2 -b srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/
+lcg-ls -v -D srmv2 -b srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/GenSim/${process_folder}
+lcg-ls -v -D srmv2 -b srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/Nanoaod/${process_folder}
 
 echo "DONE."
