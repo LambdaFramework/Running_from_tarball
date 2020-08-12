@@ -267,13 +267,13 @@ process_folder=`echo ${outfilename} | awk -F "_" '{print $1}'`
 lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_nanoaod.root srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/Nanoaod/${process_folder}/${outfilename}_nanoaod.root
 
 # copy gensim
-lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_gensim.root srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/GenSim/${process_folder}/${outfilename}_gensim.root
+#lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_gensim.root srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/GenSim/${process_folder}/${outfilename}_gensim.root
 
 # copy miniaod
 #lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_miniaod.root srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/Nanoaod/${process_folder}/${outfilename}_miniaod.root
 
 lcg-ls -v -D srmv2 -b srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/
-lcg-ls -v -D srmv2 -b srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/GenSim/${process_folder}
+#lcg-ls -v -D srmv2 -b srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/GenSim/${process_folder}
 lcg-ls -v -D srmv2 -b srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/Nanoaod/${process_folder}
 
 echo "DONE."

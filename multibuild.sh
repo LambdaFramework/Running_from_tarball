@@ -8,7 +8,7 @@ dir="${PWD}/tarball/"
 files=`ls $dir`
                         
 #number of job
-njob="30"
+njob="20"
 
 echo "#!/bin/bash" > multisubmit.sh
 
