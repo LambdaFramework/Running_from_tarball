@@ -144,7 +144,7 @@ cmsDriver.py step1 \
     --datatier GEN-SIM-RAW \
     --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 \
     --era Run2_2016 \
-    --nThreads 2 \
+    --nThreads 1 \
     --python_filename ${outfilename}_1_cfg.py \
     --datamix PreMix \
     --pileup_input "dbs:/Neutrino_E-10_gun/RunIISpring15PrePremix-PUMoriond17_80X_mcRun2_asymptotic_2016_TrancheIV_v2-v2/GEN-SIM-DIGI-RAW" \
@@ -162,7 +162,7 @@ cmsDriver.py step2 \
     --datatier AODSIM \
     --conditions 80X_mcRun2_asymptotic_2016_TrancheIV_v6 \
     --era Run2_2016 \
-    --nThreads 2 \
+    --nThreads 1 \
     --python_filename ${outfilename}_2_cfg.py \
     --customise Configuration/DataProcessing/Utils.addMonitoring \
     --runUnscheduled \
@@ -197,7 +197,7 @@ cmsDriver.py step1 \
     --datatier MINIAODSIM \
     --conditions 94X_mcRun2_asymptotic_v3 \
     --era Run2_2016,run2_miniAOD_80XLegacy \
-    --nThreads 2 \
+    --nThreads 1 \
     --python_filename ${outfilename}_miniaod_cfg.py \
     --customise Configuration/DataProcessing/Utils.addMonitoring \
     --runUnscheduled \
@@ -238,7 +238,7 @@ cmsDriver.py step1 \
     --datatier NANOAODSIM \
     --conditions 102X_mcRun2_asymptotic_v6 \
     --era Run2_2016,run2_nanoAOD_94X2016 \
-    --nThreads 2 \
+    --nThreads 1 \
     --python_filename ${outfilename}_nanoaod_cfg.py \
     --customise_commands="process.add_(cms.Service('InitRootHandlers', EnableIMT = cms.untracked.bool(False)))" \
     --customise_commands 'process.particleLevelSequence.remove(process.genParticles2HepMCHiggsVtx);process.particleLevelSequence.remove(process.rivetProducerHTXS);process.particleLevelTables.remove(process.HTXSCategoryTable)' \
@@ -275,5 +275,8 @@ lcg-cp -v -D srmv2 -b file:///$PWD/${outfilename}_nanoaod.root srm://t2-srm-02.l
 lcg-ls -v -D srmv2 -b srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/
 #lcg-ls -v -D srmv2 -b srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/GenSim/${process_folder}
 lcg-ls -v -D srmv2 -b srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/Nanoaod/${process_folder}
+
+#copy file to local example
+#gfal-copy srm://t2-srm-02.lnl.infn.it:8443/srm/managerv2?SFN=/pnfs/lnl.infn.it/data/cms/store/user/shoh/mcProduction/Nanoaod/sshwplus012j file:/$PWD/sshwplus012
 
 echo "DONE."
